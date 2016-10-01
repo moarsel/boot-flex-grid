@@ -1,0 +1,158 @@
+
+/*------------------------------------*\
+    Grid System
+\*------------------------------------*/
+
+/*
+ * Creates row and column classes for each breakpoint
+ *
+ * Grid Settings
+ * Row Structure
+ * Grid Helper Mixins
+ * Grid Modifier Classes
+ */
+
+
+
+// ---------- Grid Breakpoints ---------
+
+$breakpoints: (
+  'xs':   320px,
+  'sm':   544px,
+  'md':   768px,
+  'lg':   1140px
+);
+
+
+
+// ---------- Grid Settings ---------
+
+// Set the number of columns you want to use on your layout.
+$grid-columns: 12;
+
+// Set the gutter between columns.
+$gutter-width: 1rem;
+
+// Set the gutter variants
+$gutter-compensation: $gutter-width * .5 * -1;
+$half-gutter-width: $gutter-width * .5;
+
+
+
+// ---------- Row Structure ---------
+
+.row {
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-right: $gutter-compensation;
+  margin-left: $gutter-compensation;
+  box-sizing: border-box;
+
+  &--display {
+    margin-right: 0;
+    margin-left: 0;
+  }
+}
+
+
+// ---------- Grid Helper Mixins ---------
+
+@mixin make-column {
+  flex: 0 0 auto;
+  padding-right: $half-gutter-width;
+  padding-left: $half-gutter-width;
+  box-sizing: border-box;
+}
+
+
+@mixin conditional-media-query($breakpoint, $breakpoint-index) {
+  
+  // screen size is stored in second variable of sass map
+  $size: nth($breakpoint, 2);
+  
+  // The smallest breakpoint is the default size, it doesnt need media query
+  @if $breakpoint-index != 1 {
+    @media only screen and (min-width: $size) {
+      @content;
+    }
+  }
+  @else {
+    @content;
+  }
+}
+
+
+// ---------- Grid Modifier Classes ---------
+
+
+@for $i from 1 through length($breakpoints) {
+
+  // current breakpoint is a key value pair: ('xs':   320px)
+  $current-breakpoint: nth($breakpoints, $i);
+  $breakpoint-name: nth($current-breakpoint, 1);
+
+  @include conditional-media-query($current-breakpoint, $i) {
+
+    // create auto-width column at breakpoint
+    .col-#{$breakpoint-name} {
+      @include make-column;
+      max-width: 100%;
+      flex-basis: 0;
+      flex-grow: 1;
+    }
+
+    // create all column classes for current breakpoint
+    @for $i from 1 through $grid-columns {
+      $col-class-name: '.col-#{$breakpoint-name}-#{$i}';
+
+      #{$col-class-name} {
+        @include make-column;
+        max-width: 100% / $grid-columns * $i;
+        flex-basis: 100% / $grid-columns * $i;
+      }
+    }
+
+    // create offset classes for current breakpoint
+    @for $i from 0 through $grid-columns {
+      .col-#{$breakpoint-name}-offset-#{$i} {
+        margin-left: 100% / $grid-columns * $i;
+      }
+    }
+
+    // flex-box horizontal alignment classes
+    .row-#{$breakpoint-name}-start {
+      justify-content: flex-start;
+    }
+
+    .row-#{$breakpoint-name}-center {
+      justify-content: center;
+    }
+
+    .row-#{$breakpoint-name}-end {
+      justify-content: flex-end;
+    }
+
+    .row-#{$breakpoint-name}-around {
+      justify-content: space-around;
+    }
+
+    .row-#{$breakpoint-name}-between {
+      justify-content: space-between;
+    }
+
+    // flex-box vertical alignment classes
+    .row-#{$breakpoint-name}-top {
+      align-items: flex-start;
+    }
+
+    .row-#{$breakpoint-name}-middle {
+      align-items: center;
+    }
+
+    .row-#{$breakpoint-name}-bottom {
+      align-items: flex-end;
+    }
+  }
+}

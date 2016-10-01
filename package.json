@@ -1,0 +1,36 @@
+{
+  "name": "boot-flex-grid",
+  "version": "0.0.1",
+  "description": "Minimalistic flexbox grid with familiar bootstrap grid syntax",
+  "main": "grid.scss",
+  "dependencies": {
+    "node-sass": "^3.10.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.5.0",
+    "node-sass": "^3.10.1",
+    "postcss-cli": "^2.6.0",
+    "uglify-js": "^2.7.3"
+  },
+  "scripts": {
+    "scss": "node-sass --output-style compressed -o dist/css src",
+    "autoprefixer": "postcss -u autoprefixer --autoprefixer.browsers '> 5%, ie 9' -r dist/css/*",
+    "build": "npm run scss && npm run autoprefixer"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/moarsel/boot-flex-grid.git"
+  },
+  "keywords": [
+    "grid",
+    "sass",
+    "scss",
+    "bootstrap"
+  ],
+  "author": "Russell Hoy",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/moarsel/boot-flex-grid/issues"
+  },
+  "homepage": "https://github.com/moarsel/boot-flex-grid"
+}
