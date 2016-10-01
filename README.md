@@ -16,6 +16,8 @@ Then in your existing Sass project, just import the grid
 @import grid.scss
 ```
 
+If you want the compiled CSS of the grid simply run `npm run build`. See the package.json file to change the sass and autoprefixr script options.
+
 ## Breakpoints
 The default breakpoint widths are like this:
 
